@@ -47,8 +47,9 @@ function App() {
             >Sign up</button>
             <p className="text-center text-[#03014C]font-sans text-[13px] mt-[35px]">Already  have an account ? 
               <span className=" text-[#EA6C00] font-sans text-[13px] mt-[35px]">
-    Sign In
-  </span></p>
+               Sign In
+               </span>
+           </p>
           </div>
         </div>
 
