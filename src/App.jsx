@@ -1,28 +1,68 @@
 import { useState } from "react";
 import registration from "./assets/registration.png"
-
+import { FaEyeSlash } from "react-icons/fa";
+import { FaEye } from "react-icons/fa";
 function App() {
 
     const [ email , setEmail ] = useState("")
     const [ fullName , setFullName ] = useState("")
+    const [password , setPassword ] = useState("")
+    const [show , setShow ] = useState("false")
+
+    const [emailerr , setEmailerr] = useState("")
+    const [fullNameErr, SetFullNameErr] = useState("")
+    const [passwordErr , setPasswordErr] =useState("")
+
 
     const handleEmail = (e) => {
       setEmail(e.target.value);
-      
+      setEmailerr("")
+    }
+    
+    
+    const handlePassword = (e) => {
+      setPassword(e.target.value);
+      setPasswordErr("")
     }
 
     const handleFullname = (e) => {
       setFullName(e.target.value)
+      SetFullNameErr("")
+    }
+
+    if(email && fullName && password ){
+      console.log('registration done');
+      
     }
 
     const handleRegistration = () => {
       console.log(email);
       if(!email){
-        console.log('vai tui email da');
+        setEmailerr('Please enter your email address.');
+      }else{
+        if(!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
+          setEmailerr('Please enter a valid email address.');
+          
+        }
       }
       if(!fullName){
-        console.log('vai tui name da');
-        
+        SetFullNameErr('Please enter your full name.');
+      }
+      if(!password){
+        setPasswordErr('Please enter your password.');
+      }else{
+        if(!/(?=.*[a-z])/.test(password)){
+          setPasswordErr("Password has at least one lowercase letter.")
+          }else if (!/(?=.*[A-Z])/.test(password)){
+            setPasswordErr("Password must include a Uappercase letter.")
+          }else if (!/(?=.*[0-9])/.test(password)){
+            setPasswordErr("Password must include at least one number.")
+          }else if(!/(?=.*[!@#$%^&*])/.test(password)){
+            setPasswordErr("Password must include at least one special character (!@#$%^&*).")
+          }else if (!/(?=.{8,})/.test(password)){
+            setPasswordErr("Password must be at least 8 characters long.")
+          }
+
       }
     }
 
@@ -32,11 +72,11 @@ function App() {
         <h2 className="font-secondary font-bold text-secondary text-[34px]">Get started with easily register</h2>
         <p className="font-secondary text-[20px] text-black/50 mt-[13px]">Free register and you can enjoy it</p>
 
-        <div>
+        <div className="xl:w-[368px]">
 
           <div class="relative my-[34px]">
-            <input onChange={handleEmail} type="email" id="floating_outlined2" className="block px-[26px] py-[26px] xl:w-[368px] text-xl text-secondary font-semibold bg-transparent rounded-lg border-1 border-gray-300 appearance-none   focus:outline-none focus:ring-0 focus:border-secondary/30 peer" placeholder="  " />
-
+            <input onChange={handleEmail} type="email" id="floating_outlined2" className="block px-[26px] py-[26px]  text-xl w-full text-secondary font-semibold bg-transparent rounded-lg border-1 border-gray-300 appearance-none   focus:outline-none focus:ring-0 focus:border-secondary/30 peer" placeholder="  " />
+            <p className="bg-red-500 text-white rounded px-4 mt-1">{emailerr}</p>
             <label for="floating_outlined2" className="absolute text-sm  duration-300 transform  -translate-y-4 top-2 z-10 origin-[0] bg-white  px-4 peer-focus:px-4 
             font-secondary font-semibold
             tracking-[2px] text-secondary
@@ -49,6 +89,8 @@ function App() {
             onChange={handleFullname}
              type="text"   id="floating_outlined2" className="block px-[26px] py-[26px] xl:w-[368px] text-xl text-secondary font-semibold bg-transparent rounded-lg border-1 border-gray-300 appearance-none   focus:outline-none focus:ring-0 focus:border-secondary/30 peer" placeholder="  " />
 
+              <p className="bg-red-500 text-white rounded px-4 mt-1">{fullNameErr}</p>
+
             <label for="floating_outlined2" className="absolute text-sm  duration-300 transform  -translate-y-4 top-2 z-10 origin-[0] bg-white  px-4 peer-focus:px-4 
             font-secondary font-semibold
             tracking-[2px] text-secondary
@@ -57,8 +99,17 @@ function App() {
 
 
           <div class="relative my-[34px]">
-            <input type="text" id="floating_outlined2" className="block px-[26px] py-[26px] xl:w-[368px] text-xl text-secondary font-semibold bg-transparent rounded-lg border-1 border-gray-300 appearance-none   focus:outline-none focus:ring-0 focus:border-secondary/30 peer" placeholder=" " />
+            <input type={show ? "password" :"Text"}
+            onChange={handlePassword}
+            id="floating_outlined2" className="block px-[26px] py-[26px] xl:w-[368px] text-xl text-secondary font-semibold bg-transparent rounded-lg border-1 border-gray-300 appearance-none   focus:outline-none focus:ring-0 focus:border-secondary/30 peer" placeholder=" " />
+            
+           {
+              show ? 
+              <FaEyeSlash onClick={()=>setShow(!show)} className="absolute top-8 right-7"/>: 
+              <FaEye onClick={()=>setShow(!show)} className="absolute top-8 right-7" />
 
+            }
+              <p className="bg-red-500 text-white rounded px-4 mt-1">{passwordErr}</p>
             <label for="floating_outlined2" className="absolute text-sm  duration-300 transform  -translate-y-4 top-2 z-10 origin-[0] bg-white  px-4 peer-focus:px-4 
             font-secondary font-semibold
             tracking-[2px] text-secondary
