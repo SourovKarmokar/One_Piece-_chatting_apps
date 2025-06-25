@@ -12,6 +12,7 @@ const Login = () => {
     const [emailerr , setEmailerr] = useState("")
     const [fullNameErr, SetFullNameErr] = useState("")
     const [passwordErr , setPasswordErr] =useState("")
+    
 
 
     const handleEmail = (e) => {
@@ -78,7 +79,7 @@ const Login = () => {
      <div className="flex">
       <div className="w-[60%] pt-[100px] pl-[190px]">
         <h2 className="font-secondary font-bold text-secondary text-[34px]">Login to your account!</h2>
-        <p className="font-secondary text-[20px] text-black/50 mt-[13px]">Free register and you can enjoy it</p>
+        <p className="font-secondary text-[20px] text-black/50 mt-[13px]">Login with Google</p>
 
         <div className="xl:w-[368px]">
 
@@ -86,7 +87,7 @@ const Login = () => {
             
             <input type="text" id="floating_standard" className="block py-2.5 px-0 w-full  xl:w-[368px] text-xl text-secondary font-semibold  border-gray-300 appearance-none bg-transparent border-0 border-b-2   focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
             <label for="floating_standard" 
-            className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Email Addres</label>
+            className="absolute text-sm text-secondary  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Email Addres</label>
           </div>
 
 
@@ -98,17 +99,17 @@ const Login = () => {
             value={password}
             type={show ? "password" :"Text"}
             onChange={handlePassword}
-            id="floating_standard" className=" mt-[60px] block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+            id="floating_standard" className=" mt-[60px] block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none   focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
 
             
            {
               show ? 
-              <FaEyeSlash onClick={()=>setShow(!show)} className="absolute top-8 right-7"/>: 
-              <FaEye onClick={()=>setShow(!show)} className="absolute top-8 right-7" />
+              <FaEyeSlash onClick={()=>setShow(!show)} className="absolute top-4 right-7"/>: 
+              <FaEye onClick={()=>setShow(!show)} className="absolute top-4 right-7" />
 
             }
             <p className="bg-red-500 text-black rounded px-4 mt-1">{passwordErr}</p>
-             <label for="floating_standard" className="absolute text-sm text-secondary  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Floating standard</label>
+             <label for="floating_standard" className="absolute text-sm text-secondary  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Password</label>
           </div>
 
           <div className="w-[368px]">

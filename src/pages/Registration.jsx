@@ -3,78 +3,132 @@ import { useState } from "react";
 import registration from "../assets/registration.png"
 import { FaEyeSlash } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import { useNavigate } from 'react-router';
+import { ToastContainer, toast } from 'react-toastify';
+import { Slide, Zoom, Flip, Bounce } from 'react-toastify';
+import { ClipLoader } from 'react-spinners';
+// import {ThreeCircles} from 'react-loader-spinner'
+
+
+
+
 const Registration = () => {
-     const [ email , setEmail ] = useState("")
-    const [ fullName , setFullName ] = useState("")
-    const [password , setPassword ] = useState("")
-    const [show , setShow ] = useState("false")
-
-    const [emailerr , setEmailerr] = useState("")
-    const [fullNameErr, SetFullNameErr] = useState("")
-    const [passwordErr , setPasswordErr] =useState("")
-
-
-    const handleEmail = (e) => {
-      setEmail(e.target.value);
-      setEmailerr("")
-    }
-    
-    
-    const handlePassword = (e) => {
-      setPassword(e.target.value);
-      setPasswordErr("")
-    }
-
-    const handleFullname = (e) => {
-      setFullName(e.target.value)
-      SetFullNameErr("")
-    }
+  const auth = getAuth();
+  const [email, setEmail] = useState("")
+  const [fullName, setFullName] = useState("")
+  const [password, setPassword] = useState("")
+  const [show, setShow] = useState("false")
+  const [test, setTest] = useState(" ")
+  const [emailerr, setEmailerr] = useState("")
+  const [fullNameErr, SetFullNameErr] = useState("")
+  const [passwordErr, setPasswordErr] = useState("")
+  const [lodder, setLodder] = useState(false)
+  const navigate = useNavigate()
+  const [loading, setLoading] = useState(false)
 
 
-    const handleRegistration = () => {
-      console.log(email);
-      if(!email){
-        setEmailerr('Please enter your email address.');
-        
-      }else{
-        if(!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
-          setEmailerr('Please enter a valid email address.');
-          
-        }
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+    setEmailerr("")
+  }
+
+
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+    setPasswordErr("")
+  }
+
+  const handleFullname = (e) => {
+    setFullName(e.target.value)
+    SetFullNameErr("")
+  }
+
+
+  const handleRegistration = () => {
+    if (!email) {
+      setEmailerr('Please enter your email address.');
+
+    } else {
+      if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+        setEmailerr('Please enter a valid email address.');
+
       }
-      if(!fullName){
-        SetFullNameErr('Please enter your full name.');
+    }
+    if (!fullName) {
+      SetFullNameErr('Please enter your full name.');
+    }
+    if (!password) {
+      setPasswordErr('Please enter your password.');
+    }
+    else {
+      if (!/(?=.*[a-z])/.test(password)) {
+        setPasswordErr("Password has at least one lowercase letter.")
+      } else if (!/(?=.*[A-Z])/.test(password)) {
+        setPasswordErr("Password must include a Uappercase letter.")
+      } else if (!/(?=.*[0-9])/.test(password)) {
+        setPasswordErr("Password must include at least one number.")
+      } else if (!/(?=.*[!@#$%^&*])/.test(password)) {
+        setPasswordErr("Password must include at least one special character (!@#$%^&*).")
+      } else if (!/(?=.{8,})/.test(password)) {
+        setPasswordErr("Password must be at least 8 characters long.")
       }
-      if(!password){
-        setPasswordErr('Please enter your password.');
-      }else{
-         if(!/(?=.*[a-z])/.test(password)){
-          setPasswordErr("Password has at least one lowercase letter.")
-          }else if (!/(?=.*[A-Z])/.test(password)){
-            setPasswordErr("Password must include a Uappercase letter.")
-          }else if (!/(?=.*[0-9])/.test(password)){
-            setPasswordErr("Password must include at least one number.")
-          }else if(!/(?=.*[!@#$%^&*])/.test(password)){
-            setPasswordErr("Password must include at least one special character (!@#$%^&*).")
-          }else if (!/(?=.{8,})/.test(password)){
-            setPasswordErr("Password must be at least 8 characters long.")
+
+    }
+    setLoading(true);
+    if (email && fullName && password) {
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          sendEmailVerification(auth.currentUser)
+          toast.success("Registration done. Please verify your email.");
+          setTimeout(() => {
+            navigate("/login")
+          }, 5000);
+          setEmail("");
+          setFullName("");
+          setPassword("");
+          setLoading(false)
+        })
+        .catch((error) => {
+
+
+          const err = error.message
+          if (err.includes("auth/email-already-in-use")) {
+            setEmailerr('email already existe');
+
+          } if (error.code === "auth/weak-password") {
+            setPasswordErr("Password should be at least 6 characters.");
           }
+          console.log("auth err :" + error);
+          setLoading(false)
 
-      }
-    }
+          console.log(error);
 
-    
-    if(email && fullName && password &&  /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})/.test(
-        password
-      )
-    ){
-      console.log('registration done');
-      setEmail("")
-      setFullName("")
-      setPassword("")
+        });
+      // console.log('registration done');
+
     }
+  };
+
+
+
+
   return (
-     <div className="flex">
+    <div className="flex">
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        transition={Bounce}>
+      </ToastContainer>
+
       <div className="w-[60%] pt-[100px] pl-[190px]">
         <h2 className="font-secondary font-bold text-secondary text-[34px]">Get started with easily register</h2>
         <p className="font-secondary text-[20px] text-black/50 mt-[13px]">Free register and you can enjoy it</p>
@@ -82,11 +136,11 @@ const Registration = () => {
         <div className="xl:w-[368px]">
 
           <div class="relative my-[34px]">
-            <input 
-            onChange={handleEmail} 
-            value={email}
-            type="email" id="floating_outlined2" 
-            className="block px-[26px] py-[26px]  text-xl w-full text-secondary font-semibold bg-transparent rounded-lg border-1 border-gray-300 appearance-none   focus:outline-none focus:ring-0 focus:border-secondary/30 peer" placeholder="  " />
+            <input
+              onChange={handleEmail}
+              value={email}
+              type="email" id="floating_outlined2"
+              className="block px-[26px] py-[26px]  text-xl w-full text-secondary font-semibold bg-transparent rounded-lg border-1 border-gray-300 appearance-none   focus:outline-none focus:ring-0 focus:border-secondary/30 peer" placeholder="  " />
             <p className="bg-red-500 text-white rounded px-4 mt-1">{emailerr}</p>
             <label for="floating_outlined2" className="absolute text-sm  duration-300 transform  -translate-y-4 top-2 z-10 origin-[0] bg-white  px-4 peer-focus:px-4 
             font-secondary font-semibold
@@ -96,14 +150,14 @@ const Registration = () => {
 
 
           <div class="relative my-[34px]">
-            <input 
-            onChange={handleFullname}
-            value={fullName}
-            type="text"   
-            id="floating_outlined2" 
-            className="block px-[26px] py-[26px] xl:w-[368px] text-xl text-secondary font-semibold bg-transparent rounded-lg border-1 border-gray-300 appearance-none   focus:outline-none focus:ring-0 focus:border-secondary/30 peer" placeholder="  " />
+            <input
+              onChange={handleFullname}
+              value={fullName}
+              type="text"
+              id="floating_outlined2"
+              className="block px-[26px] py-[26px] xl:w-[368px] text-xl text-secondary font-semibold bg-transparent rounded-lg border-1 border-gray-300 appearance-none   focus:outline-none focus:ring-0 focus:border-secondary/30 peer" placeholder="  " />
 
-              <p className="bg-red-500 text-white rounded px-4 mt-1">{fullNameErr}</p>
+            <p className="bg-red-500 text-white rounded px-4 mt-1">{fullNameErr}</p>
 
             <label for="floating_outlined2" className="absolute text-sm  duration-300 transform  -translate-y-4 top-2 z-10 origin-[0] bg-white  px-4 peer-focus:px-4 
             font-secondary font-semibold
@@ -113,17 +167,17 @@ const Registration = () => {
 
 
           <div class="relative my-[34px]">
-            <input 
-            value={password}
-            type={show ? "password" :"Text"}
-            onChange={handlePassword}
-            id="floating_outlined2" 
-            className="block px-[26px] py-[26px] xl:w-[368px] text-xl text-secondary font-semibold bg-transparent rounded-lg border-1 border-gray-300 appearance-none   focus:outline-none focus:ring-0 focus:border-secondary/30 peer" placeholder=" " />
-            
-           {
-              show ? 
-              <FaEyeSlash onClick={()=>setShow(!show)} className="absolute top-8 right-7"/>: 
-              <FaEye onClick={()=>setShow(!show)} className="absolute top-8 right-7" />
+            <input
+              value={password}
+              type={show ? "password" : "Text"}
+              onChange={handlePassword}
+              id="floating_outlined2"
+              className="block px-[26px] py-[26px] xl:w-[368px] text-xl text-secondary font-semibold bg-transparent rounded-lg border-1 border-gray-300 appearance-none   focus:outline-none focus:ring-0 focus:border-secondary/30 peer" placeholder=" " />
+
+            {
+              show ?
+                <FaEyeSlash onClick={() => setShow(!show)} className="absolute top-8 right-7" /> :
+                <FaEye onClick={() => setShow(!show)} className="absolute top-8 right-7" />
 
             }
             <p className="bg-red-500 text-white rounded px-4 mt-1">{passwordErr}</p>
@@ -135,17 +189,32 @@ const Registration = () => {
 
           <div className="w-[368px]">
             <button
-            onClick={handleRegistration}
+              onClick={handleRegistration}
               style={{
-                 background: "linear-gradient(87deg, rgba(30,30,30,1) 0%, rgba(37,19,102,1) 54%, rgba(0,0,0,1) 100%)",
+                background: "linear-gradient(87deg, rgba(30,30,30,1) 0%, rgba(37,19,102,1) 54%, rgba(0,0,0,1) 100%)",
               }}
               className="w-full font-secondary text-white py-[20px] bg-demo rounded-[86px]"
-            >Sign up</button>
-            <p className="text-center text-[#03014C]font-sans text-[13px] mt-[35px]">Already  have an account ? 
+            >Sign Up</button>
+            <div>
+                {/* {loading ? <ThreeCircles color="white" /> : "Sign Up"} */}
+
+              {/* render(<ThreeCircles
+                visible={true}
+                height="100"
+                width="100"
+                color="#4fa94d"
+                ariaLabel="three-circles-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+              />) */}
+
+
+            </div>
+            <p className="text-center text-[#03014C]font-sans text-[13px] mt-[35px]">Already  have an account ?
               <span className=" text-[#EA6C00] font-sans text-[13px] mt-[35px]">
-               Sign In
-               </span>
-           </p>
+                Sign In
+              </span>
+            </p>
           </div>
         </div>
 
