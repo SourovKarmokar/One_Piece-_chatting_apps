@@ -76,7 +76,7 @@ const Registration = () => {
 
     }
     setLoading(true);
-    if (email && fullName && password) {
+    if (email && fullName && password && /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{6,}$/.test(password)) {
       createUserWithEmailAndPassword(auth, email, password)
         .then(() => {
           sendEmailVerification(auth.currentUser)
