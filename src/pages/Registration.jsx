@@ -7,7 +7,7 @@ import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "
 import { useNavigate } from 'react-router';
 import { ToastContainer, toast } from 'react-toastify';
 import { Slide, Zoom, Flip, Bounce } from 'react-toastify';
-import { ClipLoader } from 'react-spinners';
+import { Bars } from 'react-loader-spinner'
 // import {ThreeCircles} from 'react-loader-spinner'
 
 
@@ -77,10 +77,13 @@ const Registration = () => {
     }
     setLoading(true);
     if (email && fullName && password && /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{6,}$/.test(password)) {
+      setLoading(true)
       createUserWithEmailAndPassword(auth, email, password)
         .then(() => {
           sendEmailVerification(auth.currentUser)
           toast.success("Registration done. Please verify your email.");
+
+          setLoading(false)
           setTimeout(() => {
             navigate("/login")
           }, 5000);
@@ -188,15 +191,39 @@ const Registration = () => {
           </div>
 
           <div className="w-[368px]">
-            <button
+            {
+              loading ?
+                <div className="flex items-center justify-center ">
+                  <Bars
+                    height="80"
+                    width="80"
+                    color="#4fa94d"
+                    ariaLabel="bars-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                    visible={true}
+                  />
+                </div>
+
+
+                :
+                <button
+                  onClick={handleRegistration}
+                  style={{
+                    background: "linear-gradient(87deg, rgba(30,30,30,1) 0%, rgba(37,19,102,1) 54%, rgba(0,0,0,1) 100%)",
+                  }}
+                  className="w-full font-secondary text-white py-[20px] bg-demo rounded-[86px]"
+                >Sign Up</button>
+            }
+            {/* <button
               onClick={handleRegistration}
               style={{
                 background: "linear-gradient(87deg, rgba(30,30,30,1) 0%, rgba(37,19,102,1) 54%, rgba(0,0,0,1) 100%)",
               }}
               className="w-full font-secondary text-white py-[20px] bg-demo rounded-[86px]"
-            >Sign Up</button>
+            >Sign Up</button> */}
             <div>
-                {/* {loading ? <ThreeCircles color="white" /> : "Sign Up"} */}
+              {/* {loading ? <ThreeCircles color="white" /> : "Sign Up"} */}
 
               {/* render(<ThreeCircles
                 visible={true}
