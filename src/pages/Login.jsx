@@ -7,11 +7,12 @@ import google from "../assets/google.png"
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { ToastContainer, toast } from 'react-toastify';
 import { Slide, Zoom, Flip, Bounce } from 'react-toastify';
+import { Link } from 'react-router';
 
 const Login = () => {
   const auth = getAuth();
   const [email, setEmail] = useState("")
-  const [fullName, setFullName] = useState("")
+
   const [password, setPassword] = useState("")
   const [show, setShow] = useState("false")
 
@@ -78,8 +79,8 @@ const Login = () => {
 
           // Handle specific Firebase errors
           if (errorCode === 'auth/invalid-email') {
-             toast.error('Please give your right emial & password');
-          } 
+            toast.error('Please give your right emial & password');
+          }
         });
     }
   }
@@ -123,7 +124,15 @@ const Login = () => {
 
           <div className="relative my-[34px]">
 
-            <input type="text" id="floating_standard" className="block py-2.5 px-0 w-full  xl:w-[368px] text-xl text-secondary font-semibold  border-gray-300 appearance-none bg-transparent border-0 border-b-2   focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+            <input
+            
+             
+              type="email"
+            
+              id="floating_standard"
+              value={email}
+              onChange={handleEmail}
+              className="block py-2.5 px-0 w-full  xl:w-[368px] text-xl text-secondary font-semibold  border-gray-300 appearance-none bg-transparent border-0 border-b-2   focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
 
             <label htmlFor="floating_standard"
               className="absolute text-sm text-secondary  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Email Addres</label>
@@ -164,6 +173,9 @@ const Login = () => {
                 Sign In
               </span>
             </p>
+            <div className='text-center ' >
+              <Link to="/forgotpassword" className=" text-[#EA6C00] font-sans text-[13px] mt-[35px] font-bold">Forget Password ?</Link>
+            </div>
           </div>
         </div>
 

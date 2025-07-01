@@ -1,3 +1,4 @@
+import ForgotPassword from "./pages/ForgotPassword";
 import Login from "./pages/Login";
 import Registration from "./pages/Registration"
 import {
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
   {
     path: "/login" ,
     element : <Login />
+  },
+  {
+    path: "/forgotpassword" ,
+    element : <ForgotPassword />
   },
 ])
 

@@ -138,38 +138,39 @@ const Registration = () => {
 
         <div className="xl:w-[368px]">
 
-          <div class="relative my-[34px]">
+          <form >
+            <div className="relative my-[34px]">
             <input
               onChange={handleEmail}
               value={email}
-              type="email" id="floating_outlined2"
+              type="email" id="floating"
               className="block px-[26px] py-[26px]  text-xl w-full text-secondary font-semibold bg-transparent rounded-lg border-1 border-gray-300 appearance-none   focus:outline-none focus:ring-0 focus:border-secondary/30 peer" placeholder="  " />
             <p className="bg-red-500 text-white rounded px-4 mt-1">{emailerr}</p>
-            <label for="floating_outlined2" className="absolute text-sm  duration-300 transform  -translate-y-4 top-2 z-10 origin-[0] bg-white  px-4 peer-focus:px-4 
+            <label htmlFor="floating" className="absolute text-sm  duration-300 transform  -translate-y-4 top-2 z-10 origin-[0] bg-white  px-4 peer-focus:px-4 
             font-secondary font-semibold
             tracking-[2px] text-secondary
             peer-focus:text-secondary/70  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2  peer-focus:-translate-y-4 rtl:peer-focus:translate-x-2/5 rtl:peer-focus:left-auto start-4">Email Address</label>
           </div>
 
 
-          <div class="relative my-[34px]">
+          <div className="relative my-[34px]">
             <input
               onChange={handleFullname}
               value={fullName}
               type="text"
-              id="floating_outlined2"
+              id="floating_outlined"
               className="block px-[26px] py-[26px] xl:w-[368px] text-xl text-secondary font-semibold bg-transparent rounded-lg border-1 border-gray-300 appearance-none   focus:outline-none focus:ring-0 focus:border-secondary/30 peer" placeholder="  " />
 
             <p className="bg-red-500 text-white rounded px-4 mt-1">{fullNameErr}</p>
 
-            <label for="floating_outlined2" className="absolute text-sm  duration-300 transform  -translate-y-4 top-2 z-10 origin-[0] bg-white  px-4 peer-focus:px-4 
+            <label htmlFor="floating_outlined" className="absolute text-sm  duration-300 transform  -translate-y-4 top-2 z-10 origin-[0] bg-white  px-4 peer-focus:px-4 
             font-secondary font-semibold
             tracking-[2px] text-secondary
             peer-focus:text-secondary/70  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2  peer-focus:-translate-y-4 rtl:peer-focus:translate-x-2/5 rtl:peer-focus:left-auto start-4">Full name</label>
           </div>
 
 
-          <div class="relative my-[34px]">
+          <div className="relative my-[34px]">
             <input
               value={password}
               type={show ? "password" : "Text"}
@@ -184,7 +185,7 @@ const Registration = () => {
 
             }
             <p className="bg-red-500 text-white rounded px-4 mt-1">{passwordErr}</p>
-            <label for="floating_outlined2" className="absolute text-sm  duration-300 transform  -translate-y-4 top-2 z-10 origin-[0] bg-white  px-4 peer-focus:px-4 
+            <label htmlFor="floating_outlined2" className="absolute text-sm  duration-300 transform  -translate-y-4 top-2 z-10 origin-[0] bg-white  px-4 peer-focus:px-4 
             font-secondary font-semibold
             tracking-[2px] text-secondary
             peer-focus:text-secondary/70  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2  peer-focus:-translate-y-4 rtl:peer-focus:translate-x-2/5 rtl:peer-focus:left-auto start-4">Password</label>
@@ -243,6 +244,7 @@ const Registration = () => {
               </span>
             </p>
           </div>
+          </form>
         </div>
 
       </div>
