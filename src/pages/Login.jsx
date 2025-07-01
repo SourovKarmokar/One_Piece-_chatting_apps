@@ -4,13 +4,14 @@ import login from "../assets/login.jpg"
 import { FaEyeSlash } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
 import google from "../assets/google.png"
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword,signInWithPopup, GoogleAuthProvider  } from "firebase/auth";
 import { ToastContainer, toast } from 'react-toastify';
 import { Slide, Zoom, Flip, Bounce } from 'react-toastify';
 import { Link } from 'react-router';
 
 const Login = () => {
   const auth = getAuth();
+  const provider = new GoogleAuthProvider()
   const [email, setEmail] = useState("")
 
   const [password, setPassword] = useState("")
@@ -86,7 +87,20 @@ const Login = () => {
   }
 
 
-
+const handleGoogleSignIn = () => {
+  signInWithPopup(auth, provider)
+  .then((user) => {
+    console.log(user);
+    console.log("sussess");
+    
+    
+  }).catch((error) => {
+    // Handle Errors here.
+    const errorCode = error.code;
+    console.log(errorCode);
+    
+  });
+}
 
 
   return (
@@ -106,7 +120,8 @@ const Login = () => {
       </ToastContainer>
       <div className="w-[60%] pt-[100px] pl-[190px]">
         <h2 className="font-secondary font-bold text-secondary text-[34px]">Login to your account!</h2>
-        <div className='relative
+        <div onClick={handleGoogleSignIn} className='
+                        relative
                         mt-9
                         w-[220.9px] h-[62.52px]
                         bg-opacity-88
