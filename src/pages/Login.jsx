@@ -6,7 +6,7 @@ import { FaEye } from "react-icons/fa";
 import google from "../assets/google.png"
 import { getAuth, signInWithEmailAndPassword,signInWithPopup, GoogleAuthProvider  } from "firebase/auth";
 import { ToastContainer, toast } from 'react-toastify';
-import { Slide, Zoom, Flip, Bounce } from 'react-toastify';
+import { Bounce } from 'react-toastify';
 import { Link } from 'react-router';
 
 const Login = () => {

@@ -4,10 +4,11 @@ import registration from "../assets/registration.png"
 import { FaEyeSlash } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { ToastContainer, toast } from 'react-toastify';
-import { Slide, Zoom, Flip, Bounce } from 'react-toastify';
+import {  Bounce } from 'react-toastify';
 import { Bars } from 'react-loader-spinner'
+
 // import {ThreeCircles} from 'react-loader-spinner'
 
 
@@ -240,7 +241,9 @@ const Registration = () => {
             </div>
             <p className="text-center text-[#03014C]font-sans text-[13px] mt-[35px]">Already  have an account ?
               <span className=" text-[#EA6C00] font-sans text-[13px] mt-[35px]">
-                Sign In
+               <Link to ="/login">
+                 Sign In
+               </Link>
               </span>
             </p>
           </div>
