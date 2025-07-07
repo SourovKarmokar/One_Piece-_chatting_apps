@@ -7,9 +7,13 @@ import google from "../assets/google.png"
 import { getAuth, signInWithEmailAndPassword,signInWithPopup, GoogleAuthProvider  } from "firebase/auth";
 import { ToastContainer, toast } from 'react-toastify';
 import { Bounce } from 'react-toastify';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { userLogInfo } from '../slice/userSlice';
 
 const Login = () => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const auth = getAuth();
   const provider = new GoogleAuthProvider()
   const [email, setEmail] = useState("")
@@ -35,7 +39,7 @@ const Login = () => {
   }
 
 
-  const handleRegistration = () => {
+  const handleLogin = () => {
     if (!email) {
       setEmailerr('Please enter your email address.');
 
@@ -65,6 +69,12 @@ const Login = () => {
       signInWithEmailAndPassword(auth, email, password)
         .then((user) => {
           console.log("User signed in:", user);
+          dispatch(userLogInfo(user))
+          localStorage.setItem("userLoginInfo" , JSON.stringify(user))
+
+          setTimeout(() => {
+            navigate("/")
+          }, 2000);
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -162,7 +172,7 @@ const handleGoogleSignIn = () => {
               value={password}
               type={show ? "password" : "Text"}
               onChange={handlePassword}
-              id="floating_standard2" className=" mt-[60px] block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none   focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+              id="floating" className=" mt-[60px] block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none   focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
 
 
             {
@@ -172,17 +182,19 @@ const handleGoogleSignIn = () => {
 
             }
             <p className="bg-red-500 text-black rounded px-4 mt-1">{passwordErr}</p>
-            <label htmlFor="floating_standard2" className="absolute text-sm text-secondary  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Password</label>
+            <label htmlFor="floating" className="absolute text-sm text-secondary  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Password</label>
           </div>
 
           <div className="w-[368px]">
             <button
-              onClick={handleRegistration}
+              onClick={handleLogin}
               style={{
                 background: "linear-gradient(87deg, rgba(30,30,30,1) 0%, rgba(37,19,102,1) 54%, rgba(0,0,0,1) 100%)",
               }}
-              className="w-full font-secondary text-white py-[20px] bg-demo rounded-[86px]"
-            >Sign up</button>
+              className="w-full font-secondary text-white py-[20px] bg-demo rounded-[86px] cursor-pointer"
+            >
+              Login to Continue
+              </button>
             <p className="text-center text-[#03014C]font-sans text-[13px] mt-[35px]">Already  have an account ?
               <span className=" text-[#EA6C00] font-sans text-[13px] mt-[35px]">
                 Sign In

@@ -2,6 +2,8 @@ import ForgotPassword from "./pages/ForgotPassword";
 import Login from "./pages/Login";
 import Registration from "./pages/Registration"
 import Home from "./pages/Home"
+import store from "./store";
+import { Provider } from "react-redux";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -31,9 +33,9 @@ function App() {
 
 
   return (
-    <>
+    <Provider store={store}>
       <RouterProvider router={router} />
-    </>
+    </Provider>
   )
 }
 
