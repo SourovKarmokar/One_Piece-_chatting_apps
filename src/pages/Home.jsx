@@ -3,6 +3,8 @@ import Sidebar from '../components/Sidebar/Sidebar'
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import UserList from '../components/UserList/UserList';
+
 
 
 
@@ -44,7 +46,9 @@ if(loading){
             <div className='w-[186px]'>
               <Sidebar />
             </div>
-            <div className='w-[427px]'>jvbgbvccjuf</div>
+            <div className='w-[427px]'>
+              <UserList />
+            </div>
             <div className='w-[344px]'>jvbgbvccjuf</div>
             <div className='w-[344px]'>jvbgbvccjuf</div>
           </div>
