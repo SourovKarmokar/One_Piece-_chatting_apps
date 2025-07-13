@@ -197,7 +197,10 @@ const handleGoogleSignIn = () => {
               </button>
             <p className="text-center text-[#03014C]font-sans text-[13px] mt-[35px]">Already  have an account ?
               <span className=" text-[#EA6C00] font-sans text-[13px] mt-[35px]">
-                Sign In
+                <Link to = "/registration" >
+                    Sign In
+                </Link>
+                
               </span>
             </p>
             <div className='text-center ' >

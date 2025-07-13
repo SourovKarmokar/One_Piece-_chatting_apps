@@ -4,8 +4,28 @@ import { MdOutlineHome } from "react-icons/md";
 import { MdOutlineSettings } from "react-icons/md";
 import { LuMessageCircleMore } from "react-icons/lu";
 import { ImExit } from "react-icons/im";
+import { getAuth , signOut } from 'firebase/auth';
+import { useNavigate } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { userLogInfo } from '../../slice/userSlice';
 
 const Sidebar = () => {
+  const auth = getAuth();
+  const navigate = useNavigate(null);
+  const dispatch = useDispatch();
+
+  const handleLogOut = () => {
+    signOut(auth).then(() => {
+      dispatch(userLogInfo())
+      localStorage.removeItem("userLoginInfo")
+      setTimeout(() => {
+        navigate("/login")
+      },1000)
+    }).catch((error) => {
+      
+    });
+
+  }
   return (
     <div className='bg-primary h-screen  rounded-lg '>
       <div className='pt-[38px]'>
@@ -26,7 +46,7 @@ const Sidebar = () => {
         <MdOutlineSettings size={60} className='mx-auto text-white' />
       </div>
       <div className="mt-[57px] ">
-        <ImExit size={60} className='mx-auto text-white' />
+        <ImExit onClick={handleLogOut} size={60} className='mx-auto text-white' />
       </div>
     </div>
   )
