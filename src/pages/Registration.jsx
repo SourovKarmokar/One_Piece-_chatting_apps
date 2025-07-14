@@ -82,8 +82,20 @@ const Registration = () => {
     if (email && fullName && password && /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{6,}$/.test(password)) {
       setLoading(true)
       createUserWithEmailAndPassword(auth, email, password)
-        .then(() => {
+        .then(( user ) => {
           sendEmailVerification(auth.currentUser)
+
+          console.log(user.user.uid ,"user");
+          console.log(fullName);
+          
+
+          
+          set(ref(db, 'users/' + user.user.uid  ), {
+            username: fullName,
+            email: email,
+          });
+
+
           toast.success("Registration done. Please verify your email.");
 
           setLoading(false)
@@ -93,14 +105,7 @@ const Registration = () => {
           setEmail("");
           setFullName("");
           setPassword("");
-          setLoading(false)
-        }).then(() => {
-          set(ref(db, 'users/' + userId), {
-            username: "name",
-            email: " ",
-            profile_picture: imageUrl
-          });
-        })
+          setLoading(false) })
         .catch((error) => {
 
 
