@@ -3,8 +3,12 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import { FaPlus } from 'react-icons/fa';
 import user from "../../assets/user.png"
 import { getDatabase, ref, onValue } from "firebase/database";
+import { useSelector } from 'react-redux';
 
 const UserList = () => {
+  const data = useSelector(state => state.userLogInfo.value.user)
+  console.log(data ,'data');
+  
   const db = getDatabase();
   const [useList , setUseList ] = useState([])
 
@@ -14,19 +18,22 @@ const UserList = () => {
     onValue(userRef, (snapshot) => {
       let arr =[]
       snapshot.forEach((item)=>{
+        console.log(item.key,"value");
+        if( data.uid !== item.key  ){
 
-         arr.push(item.val());
+          arr.push(item.val());
+        }
         
       })
       setUseList(arr)
     });
   }, [])
 
-  console.log(useList);
+  console.log(useList, "user");
   
 
   return (
-    <div className="w-[344px] h-[451px] pt-[20px] pl-[22px] pb-[70px] pr-[25px] rounded-[20px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] font-primary">
+    <div className="w-[380px] h-[451px] pt-[20px] pl-[22px] pb-[70px] pr-[25px] rounded-[20px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] font-primary">
       <div className="flex items-center justify-between mb-[34px]">
         <h1 className="font-poppins font-semibold text-black text-[20px]">
           User List

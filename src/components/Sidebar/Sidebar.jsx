@@ -6,10 +6,13 @@ import { LuMessageCircleMore } from "react-icons/lu";
 import { ImExit } from "react-icons/im";
 import { getAuth , signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { userLogInfo } from '../../slice/userSlice';
 
 const Sidebar = () => {
+  const data = useSelector(state => state.userLogInfo.value)
+  console.log(data);
+  
   const auth = getAuth();
   const navigate = useNavigate(null);
   const dispatch = useDispatch();
@@ -27,9 +30,10 @@ const Sidebar = () => {
 
   }
   return (
-    <div className='bg-primary h-screen  rounded-lg '>
+    <div className='bg-primary h-screen  rounded-lg font-primary'>
       <div className='pt-[38px]'>
         <img className='mx-auto' src={profile} alt="" />
+        <p className='text-white text-center '>{data.user.displayName}</p>
       </div>
       <div className="
                        relative mt-[78px] z-[1] py-[20px]

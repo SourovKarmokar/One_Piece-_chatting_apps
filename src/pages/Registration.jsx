@@ -3,12 +3,13 @@ import { useState } from "react";
 import registration from "../assets/registration.png"
 import { FaEyeSlash } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
-import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "firebase/auth";
 import { Link, useNavigate } from 'react-router';
 import { ToastContainer, toast } from 'react-toastify';
 import { Bounce } from 'react-toastify';
 import { Bars } from 'react-loader-spinner'
 import { getDatabase, ref, set } from "firebase/database";
+
 
 // import {ThreeCircles} from 'react-loader-spinner'
 
@@ -82,30 +83,41 @@ const Registration = () => {
     if (email && fullName && password && /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{6,}$/.test(password)) {
       setLoading(true)
       createUserWithEmailAndPassword(auth, email, password)
-        .then(( user ) => {
-          sendEmailVerification(auth.currentUser)
+        .then((user) => {
 
-          console.log(user.user.uid ,"user");
-          console.log(fullName);
-          
+          updateProfile(auth.currentUser, {
+            displayName: fullName,
+          }).then(() => {
+            sendEmailVerification(auth.currentUser)
 
-          
-          set(ref(db, 'users/' + user.user.uid  ), {
-            username: fullName,
-            email: email,
-          });
+            console.log(user.user.uid, "user");
+            console.log(fullName);
 
 
-          toast.success("Registration done. Please verify your email.");
 
-          setLoading(false)
-          setTimeout(() => {
-            navigate("/login")
-          }, 5000);
-          setEmail("");
-          setFullName("");
-          setPassword("");
-          setLoading(false) })
+            set(ref(db, 'users/' + user.user.uid), {
+              username: user.user.displayName,
+              email: user.user.email,
+            });
+
+
+            toast.success("Registration done. Please verify your email.");
+
+            setLoading(false)
+            setTimeout(() => {
+              navigate("/login")
+            }, 5000);
+            setEmail("");
+            setFullName("");
+            setPassword("");
+            setLoading(false)
+          })
+
+          console.log(user);
+
+
+
+        })
         .catch((error) => {
 
 
@@ -113,8 +125,6 @@ const Registration = () => {
           if (err.includes("auth/email-already-in-use")) {
             setEmailerr('email already existe');
 
-          } if (error.code === "auth/weak-password") {
-            setPasswordErr("Password should be at least 6 characters.");
           }
           console.log("auth err :" + error);
           setLoading(false)
