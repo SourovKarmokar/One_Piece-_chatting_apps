@@ -1,9 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { FaPlus } from 'react-icons/fa';
 import user from "../../assets/user.png"
+import { getDatabase, onValue, ref } from 'firebase/database';
 
 const FriendRequest = () => {
+
+  const[friendRequestList , setFriendRequestList ] = useState([])
+
+    useEffect(() => {
+      const db = getDatabase()
+      const friendRequestRef = ref(db, 'friendRequest/');
+      onValue(friendRequestRef, (snapshot) => {
+        let arr = []
+        snapshot.forEach((item) => {
+          arr.push(item.val());
+        })
+        setFriendRequestList(arr)
+      });
+    }, [])
+  
+
+    console.log(friendRequestList);
+    
+
   return (
     <div className="w-[427px] h-[451px] pt-[20px] pl-[22px] pb-[70px] pr-[25px] rounded-[20px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] font-primary">
       <div className="flex items-center justify-between mb-[34px]">
@@ -15,8 +35,9 @@ const FriendRequest = () => {
 
       <div className=" overflow-y-auto h-[354px] pt-[10px]">
 
-
-        <div className="mb-[20px]">
+        {
+          friendRequestList.map((item) =>(
+              <div className="mb-[20px]">
           <div className="flex h-[54px] justify-between border-b pb-[10px] border-black/25">
             <div className="flex items-center">
               <div
@@ -27,7 +48,7 @@ const FriendRequest = () => {
               </div>
               <div className='ml-[10px]'>
                 <h2 className="font-primary font-semibold text-black text-[14px]">
-                  Swath Raham
+                  {item.sendername}
                 </h2>
                 <p className="font-primary font-medium text-[#4D4D4D] opacity-75 text-[12px]">
                   Today, 8:56pm
@@ -42,6 +63,11 @@ const FriendRequest = () => {
             </div>
           </div>
         </div>
+          ) )
+        }
+
+
+        
       </div>
     </div>
 

@@ -2,35 +2,44 @@ import React, { useEffect, useState } from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { FaPlus } from 'react-icons/fa';
 import user from "../../assets/user.png"
-import { getDatabase, ref, onValue } from "firebase/database";
+import { getDatabase, ref, onValue, set, push } from "firebase/database";
 import { useSelector } from 'react-redux';
 
 const UserList = () => {
   const data = useSelector(state => state.userLogInfo.value.user)
-  console.log(data ,'data');
-  
+  console.log(data, 'data');
+
   const db = getDatabase();
-  const [useList , setUseList ] = useState([])
+  const [useList, setUseList] = useState([])
 
-  
+
   useEffect(() => {
-    const userRef = ref(db, 'users/' );
+    const userRef = ref(db, 'users/');
     onValue(userRef, (snapshot) => {
-      let arr =[]
-      snapshot.forEach((item)=>{
-        console.log(item.key,"value");
-        if( data.uid !== item.key  ){
+      let arr = []
+      snapshot.forEach((item) => {
+        console.log(item.key, "value");
+        if (data.uid !== item.key) {
 
-          arr.push(item.val());
+          arr.push({...item.val(), userid:item.key});
         }
-        
+
       })
       setUseList(arr)
     });
   }, [])
 
   console.log(useList, "user");
-  
+  const handleRequest = (item) => {
+    set(push(ref(db, 'friendRequest/' )), {
+      senderid: data.uid,
+      sendername: data.displayName,
+      receiverid: item.userid,
+      receivername: item.username,
+    });
+
+  }
+
 
   return (
     <div className="w-[380px] h-[451px] pt-[20px] pl-[22px] pb-[70px] pr-[25px] rounded-[20px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] font-primary">
@@ -43,38 +52,38 @@ const UserList = () => {
 
       <div className=" overflow-y-auto h-[354px] pt-[10px]">
         {
-          useList.map((item)=>(
+          useList.map((item) => (
             <div className="mb-[20px]">
-          <div className="flex h-[54px] justify-between border-b pb-[10px] border-black/25">
-            <div className="flex items-center">
-              <div
-                className="relative w-[52px] h-[52px] rounded-full bg-cover bg-center mr-[10px]"
+              <div className="flex h-[54px] justify-between border-b pb-[10px] border-black/25">
+                <div className="flex items-center">
+                  <div
+                    className="relative w-[52px] h-[52px] rounded-full bg-cover bg-center mr-[10px]"
 
-              >
-                <img src={user} alt="" />
-              </div>
-              <div className='ml-[10px]'>
-                <h2 className="font-primary font-semibold text-black text-[14px]">
-                  {item.username}
-                </h2>
-                <p className="font-primary font-medium text-[#4D4D4D] opacity-75 text-[12px]">
-                  {item.email}
-                </p>
+                  >
+                    <img src={user} alt="" />
+                  </div>
+                  <div className='ml-[10px]'>
+                    <h2 className="font-primary font-semibold text-black text-[14px]">
+                      {item.username}
+                    </h2>
+                    <p className="font-primary font-medium text-[#4D4D4D] opacity-75 text-[12px]">
+                      {item.email}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mr-[10px]">
+                  <div className="flex size-[30px] bg-black rounded-[5px] justify-center items-center">
+                    <FaPlus onClick={() => handleRequest(item)} className="text-white" />
+                  </div>
+                </div>
               </div>
             </div>
-
-            <div className="mr-[10px]">
-              <div className="flex size-[30px] bg-black rounded-[5px] justify-center items-center">
-                <FaPlus className="text-white" />
-              </div>
-            </div>
-          </div>
-        </div>
           ))
         }
 
 
-        
+
       </div>
     </div>
 
