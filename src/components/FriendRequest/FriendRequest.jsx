@@ -3,8 +3,11 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import { FaPlus } from 'react-icons/fa';
 import user from "../../assets/user.png"
 import { getDatabase, onValue, ref } from 'firebase/database';
+import { useSelector } from 'react-redux';
 
 const FriendRequest = () => {
+
+  const data = useSelector(state => state.userLogInfo.value.user);
 
   const[friendRequestList , setFriendRequestList ] = useState([])
 
@@ -14,15 +17,23 @@ const FriendRequest = () => {
       onValue(friendRequestRef, (snapshot) => {
         let arr = []
         snapshot.forEach((item) => {
-          arr.push(item.val());
+          if(data.uid == item.val().receiverid )
+          {
+            arr.push(item.val());
+          }
         })
-        setFriendRequestList(arr)
+        setFriendRequestList(arr);
       });
     }, [])
   
 
     console.log(friendRequestList);
     
+    const hendleFriendAccept = (item) => {
+      console.log(item);
+      
+    } 
+
 
   return (
     <div className="w-[427px] h-[451px] pt-[20px] pl-[22px] pb-[70px] pr-[25px] rounded-[20px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] font-primary">
@@ -57,8 +68,8 @@ const FriendRequest = () => {
             </div>
 
             <div className="mr-[10px]">
-              <div className="flex size-[30px] bg-black rounded-[5px] justify-center items-center">
-                <FaPlus className="text-white" />
+              <div className="flex  bg-black rounded-[5px] justify-center items-center">
+                <p onClick={() =>hendleFriendAccept(item)} className='text-white p-2'>Accept</p>
               </div>
             </div>
           </div>

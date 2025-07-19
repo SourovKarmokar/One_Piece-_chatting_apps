@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 const UserList = () => {
   const data = useSelector(state => state.userLogInfo.value.user)
   console.log(data, 'data');
+   const[friendRequestList , setFriendRequestList ] = useState([])
 
   const db = getDatabase();
   const [useList, setUseList] = useState([])
@@ -39,6 +40,27 @@ const UserList = () => {
     });
 
   }
+
+console.log(friendRequestList);
+
+
+
+ 
+     useEffect(() => {
+      
+       const friendRequestRef = ref(db, 'friendRequest/');
+       onValue(friendRequestRef, (snapshot) => {
+         let arr = []
+         snapshot.forEach((item) => {
+           arr.push(item.val().receiverid + item.val().senderid);
+           
+         })
+         setFriendRequestList(arr);
+       });
+     }, [])
+
+
+
 
 
   return (
@@ -73,9 +95,35 @@ const UserList = () => {
                 </div>
 
                 <div className="mr-[10px]">
+
+                  {
+                    friendRequestList.includes(data.uid + item.userid) ||
+                    friendRequestList.includes( item.userid + data.uid)
+                    ?
+                     <div className="flex size-[30px] bg-black rounded-[5px] justify-center items-center">
+
+                  <p 
+                  
+                  className='text-white p-2 cursor-pointer'
+                  >
+                    -
+                  </p>
+                  
+                 </div>
+                 :
                   <div className="flex size-[30px] bg-black rounded-[5px] justify-center items-center">
-                    <FaPlus onClick={() => handleRequest(item)} className="text-white" />
-                  </div>
+
+                  <p 
+                  onClick={() => handleRequest(item)}
+                  className='text-white p-2 cursor-pointer'
+                  >
+                    +
+                  </p>
+                  
+                 </div>
+                  }
+
+                 
                 </div>
               </div>
             </div>
