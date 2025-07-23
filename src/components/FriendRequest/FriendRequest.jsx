@@ -2,24 +2,24 @@ import React, { useEffect, useState } from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { FaPlus } from 'react-icons/fa';
 import user from "../../assets/user.png"
-import { getDatabase, onValue, ref } from 'firebase/database';
+import { getDatabase, onValue, push, ref, remove, set } from 'firebase/database';
 import { useSelector } from 'react-redux';
 
 const FriendRequest = () => {
-
+    const db = getDatabase()
   const data = useSelector(state => state.userLogInfo.value.user);
 
   const[friendRequestList , setFriendRequestList ] = useState([])
 
     useEffect(() => {
-      const db = getDatabase()
+      
       const friendRequestRef = ref(db, 'friendRequest/');
       onValue(friendRequestRef, (snapshot) => {
         let arr = []
         snapshot.forEach((item) => {
           if(data.uid == item.val().receiverid )
           {
-            arr.push(item.val());
+            arr.push({...item.val() , userid :item.key});
           }
         })
         setFriendRequestList(arr);
@@ -31,8 +31,12 @@ const FriendRequest = () => {
     
     const hendleFriendAccept = (item) => {
       console.log(item);
-      
-    } 
+      set(push(ref(db ,"friend")),{
+        ...item
+      }).then(() => {
+        remove(ref(db ,"friendRequest/" + item.userid ))
+      })
+  } 
 
 
   return (
