@@ -8,10 +8,11 @@ import { useSelector } from 'react-redux';
 const UserList = () => {
   const data = useSelector(state => state.userLogInfo.value.user)
   console.log(data, 'data');
-   const[friendRequestList , setFriendRequestList ] = useState([])
+  const [friendRequestList, setFriendRequestList] = useState([])
 
   const db = getDatabase();
   const [useList, setUseList] = useState([])
+  const [friendList, setFriendList] = useState([])
 
 
   useEffect(() => {
@@ -22,7 +23,7 @@ const UserList = () => {
         console.log(item.key, "value");
         if (data.uid !== item.key) {
 
-          arr.push({...item.val(), userid:item.key});
+          arr.push({ ...item.val(), userid: item.key });
         }
 
       })
@@ -32,7 +33,7 @@ const UserList = () => {
 
   console.log(useList, "user");
   const handleRequest = (item) => {
-    set(push(ref(db, 'friendRequest/' )), {
+    set(push(ref(db, 'friendRequest/')), {
       senderid: data.uid,
       sendername: data.displayName,
       receiverid: item.userid,
@@ -41,23 +42,42 @@ const UserList = () => {
 
   }
 
-console.log(friendRequestList);
+  console.log(friendRequestList);
 
 
 
- 
-     useEffect(() => {
-      
-       const friendRequestRef = ref(db, 'friendRequest/');
-       onValue(friendRequestRef, (snapshot) => {
-         let arr = []
-         snapshot.forEach((item) => {
-           arr.push(item.val().receiverid + item.val().senderid);
-           
-         })
-         setFriendRequestList(arr);
-       });
-     }, [])
+
+  useEffect(() => {
+
+    const friendRequestRef = ref(db, 'friendRequest/');
+    onValue(friendRequestRef, (snapshot) => {
+      let arr = []
+      snapshot.forEach((item) => {
+        arr.push(item.val().receiverid + item.val().senderid);
+
+      })
+      setFriendRequestList(arr);
+    });
+  }, [])
+
+
+
+  useEffect(() => {
+    const friendRef = ref(db, 'friend/');
+    onValue(friendRef, (snapshot) => {
+      let arr = []
+      snapshot.forEach((item) => {
+        {
+
+          arr.push(item.val().receiverid + item.val().senderid);
+        }
+
+
+      })
+      setFriendList(arr);
+    });
+  }, [])
+
 
 
 
@@ -97,33 +117,48 @@ console.log(friendRequestList);
                 <div className="mr-[10px]">
 
                   {
-                    friendRequestList.includes(data.uid + item.userid) ||
-                    friendRequestList.includes( item.userid + data.uid)
-                    ?
-                     <div className="flex size-[30px] bg-black rounded-[5px] justify-center items-center">
+                    friendList.includes(data.uid + item.userid) ||
+                      friendList.includes(item.userid + data.uid)
+                      ?
+                      <div className="flex  bg-black rounded-[5px] justify-center items-center">
 
-                  <p 
-                  
-                  className='text-white p-2 cursor-pointer'
-                  >
-                    -
-                  </p>
-                  
-                 </div>
-                 :
-                  <div className="flex size-[30px] bg-black rounded-[5px] justify-center items-center">
+                        <p
 
-                  <p 
-                  onClick={() => handleRequest(item)}
-                  className='text-white p-2 cursor-pointer'
-                  >
-                    +
-                  </p>
-                  
-                 </div>
+                          className='text-white p-2 cursor-pointer'
+                        >
+                          Friend
+                        </p>
+
+                      </div>
+                      :
+                      friendRequestList.includes(data.uid + item.userid) ||
+                        friendRequestList.includes(item.userid + data.uid)
+                        ?
+                        <div className="flex bg-black rounded-[5px] justify-center items-center">
+
+                          <p
+
+                            className='text-white p-2 cursor-pointer'
+                          >
+                            -
+                          </p>
+
+                        </div>
+                        :
+                        <div className="flex bg-black rounded-[5px] justify-center items-center">
+
+                          <p
+                            onClick={() => handleRequest(item)}
+                            className='text-white p-2 cursor-pointer'
+                          >
+                            +
+                          </p>
+
+                        </div>
                   }
 
-                 
+
+
                 </div>
               </div>
             </div>
