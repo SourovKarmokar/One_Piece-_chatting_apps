@@ -84,7 +84,7 @@ const UserList = () => {
 
 
   return (
-    <div className="w-[380px] h-[451px] pt-[20px] pl-[22px] pb-[70px] pr-[25px] rounded-[20px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] font-primary">
+    <div className="w-[344px] h-[451px] pt-[20px] pl-[20px] pb-[70px] pr-[10px] rounded-[20px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] font-primary">
       <div className="flex items-center justify-between mb-[34px]">
         <h1 className="font-poppins font-semibold text-black text-[20px]">
           User List
@@ -104,7 +104,7 @@ const UserList = () => {
                   >
                     <img src={user} alt="" />
                   </div>
-                  <div className='ml-[10px]'>
+                  <div className='ml-[5px]'>
                     <h2 className="font-primary font-semibold text-black text-[14px]">
                       {item.username}
                     </h2>
