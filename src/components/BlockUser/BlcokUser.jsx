@@ -36,8 +36,8 @@ const BlockUser = () => {
             </div>
 
             <div className="mr-[10px]">
-              <div className="flex size-[30px] bg-black rounded-[5px] justify-center items-center">
-                <FaPlus className="text-white" />
+              <div className="flex bg-black rounded-[5px] justify-center items-center">
+                <button className='text-white p-3'>Block</button>
               </div>
             </div>
           </div>

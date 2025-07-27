@@ -49,95 +49,190 @@ const Registration = () => {
   }
 
 
-  const handleRegistration = () => {
-    if (!email) {
-      setEmailerr('Please enter your email address.');
+  // const handleRegistration = () => {
+  //   if (!email) {
+  //     setEmailerr('Please enter your email address.');
 
+  //   } else {
+  //     if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+  //       setEmailerr('Please enter a valid email address.');
+
+  //     }
+  //   }
+  //   if (!fullName) {
+  //     SetFullNameErr('Please enter your full name.');
+  //   }
+  //   if (!password) {
+  //     setPasswordErr('Please enter your password.');
+  //   }
+  //   else {
+  //     if (!/(?=.*[a-z])/.test(password)) {
+  //       setPasswordErr("Password has at least one lowercase letter.")
+  //     } else if (!/(?=.*[A-Z])/.test(password)) {
+  //       setPasswordErr("Password must include a Uappercase letter.")
+  //     } else if (!/(?=.*[0-9])/.test(password)) {
+  //       setPasswordErr("Password must include at least one number.")
+  //     } else if (!/(?=.*[!@#$%^&*])/.test(password)) {
+  //       setPasswordErr("Password must include at least one special character (!@#$%^&*).")
+  //     } else if (!/(?=.{8,})/.test(password)) {
+  //       setPasswordErr("Password must be at least 8 characters long.")
+  //     }
+
+  //   }
+  //   setLoading(true);
+  //   if (email && fullName && password && /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{6,}$/.test(password)) {
+  //     setLoading(true)
+  //     createUserWithEmailAndPassword(auth, email, password)
+  //       .then((user) => {
+
+  //         updateProfile(auth.currentUser, {
+  //           displayName: fullName,
+  //         }).then(() => {
+  //           sendEmailVerification(auth.currentUser)
+
+  //           console.log(user.user.uid, "user");
+  //           console.log(fullName);
+
+
+
+  //           set(ref(db, 'users/' + user.user.uid), {
+  //             username: user.user.displayName,
+  //             email: user.user.email,
+  //           });
+
+
+  //           toast.success("Registration done. Please verify your email.");
+
+  //           setLoading(false)
+  //           setTimeout(() => {
+  //             navigate("/login")
+  //           }, 5000);
+  //           setEmail("");
+  //           setFullName("");
+  //           setPassword("");
+  //           setLoading(false)
+  //         })
+
+  //         console.log(user);
+
+
+
+  //       })
+  //       .catch((error) => {
+
+
+  //         const err = error.message
+  //         if (err.includes("auth/email-already-in-use")) {
+  //           setEmailerr('email already existe');
+
+  //         }
+  //         console.log("auth err :" + error);
+  //         setLoading(false)
+
+  //         console.log(error);
+
+  //       });
+  //     // console.log('registration done');
+
+  //   }
+  // };
+
+
+
+  const handleRegistration = () => {
+    setLoading(true);
+    if (!email) {
+      setEmailerr("Please enter your email address.");
+      setLoading(false);
     } else {
       if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-        setEmailerr('Please enter a valid email address.');
-
+        setEmailerr("Please enter a valid email address.");
+        setLoading(false);
       }
     }
     if (!fullName) {
-      SetFullNameErr('Please enter your full name.');
+      SetFullNameErr("Please enter your full name.");
+      setLoading(false);
     }
     if (!password) {
-      setPasswordErr('Please enter your password.');
-    }
-    else {
+      setPasswordErr("Please enter your password.");
+      setPassword("");
+      setLoading(false);
+    } else {
       if (!/(?=.*[a-z])/.test(password)) {
-        setPasswordErr("Password has at least one lowercase letter.")
+        setPasswordErr("Password has at least one lowercase letter.");
+        setPassword("");
+        setLoading(false);
       } else if (!/(?=.*[A-Z])/.test(password)) {
-        setPasswordErr("Password must include a Uappercase letter.")
+        setPasswordErr("Password must include a Uappercase letter.");
+        setPassword("");
+        setLoading(false);
       } else if (!/(?=.*[0-9])/.test(password)) {
-        setPasswordErr("Password must include at least one number.")
+        setPasswordErr("Password must include at least one number.");
+        setPassword("");
+        setLoading(false);
       } else if (!/(?=.*[!@#$%^&*])/.test(password)) {
-        setPasswordErr("Password must include at least one special character (!@#$%^&*).")
+        setPasswordErr(
+          "Password must include at least one special character (!@#$%^&*)."
+        );
+        setPassword("");
+        setLoading(false);
       } else if (!/(?=.{8,})/.test(password)) {
-        setPasswordErr("Password must be at least 8 characters long.")
+        setPasswordErr("Password must be at least 8 characters long.");
+        setPassword("");
+        setLoading(false);
       }
-
     }
-    setLoading(true);
-    if (email && fullName && password && /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{6,}$/.test(password)) {
-      setLoading(true)
+    // setLoading(true);
+    if (
+      email &&
+      fullName &&
+      password &&
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{6,}$/.test(password)
+    ) {
+      // setLoading(true);
       createUserWithEmailAndPassword(auth, email, password)
         .then((user) => {
-
           updateProfile(auth.currentUser, {
             displayName: fullName,
           }).then(() => {
-            sendEmailVerification(auth.currentUser)
+            sendEmailVerification(auth.currentUser);
 
             console.log(user.user.uid, "user");
             console.log(fullName);
 
-
-
-            set(ref(db, 'users/' + user.user.uid), {
+            set(ref(db, "users/" + user.user.uid), {
               username: user.user.displayName,
               email: user.user.email,
             });
 
-
             toast.success("Registration done. Please verify your email.");
 
-            setLoading(false)
+            setLoading(false);
             setTimeout(() => {
-              navigate("/login")
+              navigate("/login");
             }, 5000);
             setEmail("");
             setFullName("");
             setPassword("");
-            setLoading(false)
-          })
+            setLoading(false);
+          });
 
           console.log(user);
-
-
-
         })
         .catch((error) => {
-
-
-          const err = error.message
+          const err = error.message;
           if (err.includes("auth/email-already-in-use")) {
-            setEmailerr('email already existe');
-
+            setEmailerr("email already existe");
           }
           console.log("auth err :" + error);
-          setLoading(false)
+          setLoading(false);
 
           console.log(error);
-
         });
       // console.log('registration done');
-
     }
   };
-
-
 
 
   return (
@@ -162,7 +257,7 @@ const Registration = () => {
 
         <div className="xl:w-[368px]">
 
-          <form >
+          <div>
             <div className="relative my-[34px]">
               <input
                 onChange={handleEmail}
@@ -270,7 +365,7 @@ const Registration = () => {
                 </span>
               </p>
             </div>
-          </form>
+          </div>
         </div>
 
       </div>

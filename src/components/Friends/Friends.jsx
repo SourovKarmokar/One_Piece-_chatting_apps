@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { FaPlus } from 'react-icons/fa';
 import user from "../../assets/user.png"
-import { getDatabase, onValue, ref } from 'firebase/database';
+import { getDatabase, onValue, push, ref, set } from 'firebase/database';
 import { useSelector } from 'react-redux';
 
 const Friends = () => {
@@ -28,6 +28,14 @@ const Friends = () => {
   }, [])
   console.log(friendList, "friendList");
 
+
+  const hendleBlock = () => {
+    set(push(ref(db, 'block/' )), {
+            groupName : groupName ,
+            groupTagLine : groupTagName,
+            groupAdminId : data.uid,
+          });
+  }
 
 
   return (
@@ -66,8 +74,8 @@ const Friends = () => {
                 </div>
 
                 <div className="mr-[10px]">
-                  <div className="flex size-[30px] bg-black rounded-[5px] justify-center items-center">
-                    <FaPlus className="text-white" />
+                  <div className="flex bg-black rounded-[5px] justify-center items-center">
+                    <button onClick={hendleBlock} className='text-white p-2'>Block</button>
                   </div>
                 </div>
               </div>
