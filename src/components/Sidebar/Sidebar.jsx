@@ -21,9 +21,8 @@ const Sidebar = () => {
     signOut(auth).then(() => {
       dispatch(userLogInfo())
       localStorage.removeItem("userLoginInfo")
-      setTimeout(() => {
-        navigate("/login")
-      },1000)
+      navigate("/login")
+      
     }).catch((error) => {
       
     });
@@ -41,16 +40,16 @@ const Sidebar = () => {
                        before:content-[''] before:absolute before:top-0 before:right-0 before:w-[10px] before:h-full before:bg-primary before:rounded-l-2xl
                        before:shadow-lg
                       ">
-        <MdOutlineHome size={60} className='mx-auto' />
+        <MdOutlineHome size={46} className='mx-auto' />
       </div>
       <div className="mt-[57px] ">
-        <LuMessageCircleMore size={60} className='mx-auto text-white' />
+        <LuMessageCircleMore size={46} className='mx-auto text-white' />
       </div>
       <div className="mt-[57px] ">
-        <MdOutlineSettings size={60} className='mx-auto text-white' />
+        <MdOutlineSettings size={46} className='mx-auto text-white' />
       </div>
       <div className="mt-[57px] ">
-        <ImExit onClick={handleLogOut} size={60} className='mx-auto text-white' />
+        <ImExit  onClick={handleLogOut} size={46} className='mx-auto text-white ' />
       </div>
     </div>
   )

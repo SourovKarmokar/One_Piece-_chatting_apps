@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { FaPlus } from 'react-icons/fa';
 import user from "../../assets/user.png"
-import { getDatabase, onValue, push, ref, set } from 'firebase/database';
+import { getDatabase, onValue, push, ref, remove, set } from 'firebase/database';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 const Friends = () => {
   const data = useSelector(state => state.userLogInfo.value.user);
@@ -18,7 +19,7 @@ const Friends = () => {
         if (data.uid == item.val().receiverid ||
           data.uid == item.val().senderid) {
 
-          arr.push(item.val());
+          arr.push({...item.val(), id: item.key});
         }
 
 
@@ -29,14 +30,48 @@ const Friends = () => {
   console.log(friendList, "friendList");
 
 
-  const hendleBlock = () => {
-    set(push(ref(db, 'block/' )), {
-            groupName : groupName ,
-            groupTagLine : groupTagName,
-            groupAdminId : data.uid,
-          });
-  }
+  // const hendleBlock = () => {
+  //   set(push(ref(db, 'block/' )), {
+  //           groupName : groupName ,
+  //           groupTagLine : groupTagName,
+  //           groupAdminId : data.uid,
+  //         });
+  // }
 
+
+  const blockHandler = (friend) => {
+    let blockerId = "";
+    let blockedId = "";
+    let blockerName = "";
+    let blockedName = "";
+    if (friend.senderid == data.uid) {
+      blockerId = friend.senderid;
+      blockerName = friend.sendername;
+      blockedId = friend.receiverid;
+      blockedName = friend.receivername;
+    } else {
+      blockerId = friend.receiverid;
+      blockerName = friend.receivername;
+      blockedId = friend.senderid;
+      blockedName = friend.sendername;
+    }
+    set(push(ref(db, "blocklist/")), {
+      blockerId: blockerId,
+      blockedId: blockedId,
+      blockerName: blockerName,
+      blockedName: blockedName,
+    });
+    set(push(ref(db, "notification/")), {
+      notifyReciver: blockedId,
+      type: "negative",
+      // time: time(),
+      content: `${blockerName} blocked you`,
+    });
+    toast.success("Blocked Successful");
+    remove(ref(db, "friend/" + friend.id));
+    console.log(friend);
+    
+  };
 
   return (
     <div className="w-[344px] h-[451px] pt-[20px] pl-[22px] pb-[70px] pr-[25px] rounded-[20px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] font-primary">
@@ -75,7 +110,7 @@ const Friends = () => {
 
                 <div className="mr-[10px]">
                   <div className="flex bg-black rounded-[5px] justify-center items-center">
-                    <button onClick={hendleBlock} className='text-white p-2'>Block</button>
+                    <button onClick={() => blockHandler(item)} className='text-white p-2'>Block</button>
                   </div>
                 </div>
               </div>
