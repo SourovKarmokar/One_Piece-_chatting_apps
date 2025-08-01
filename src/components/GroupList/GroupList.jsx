@@ -66,7 +66,7 @@ const GroupList = () => {
 
 
   return (
-    <div className="w-[427px] h-[451px] pt-[20px] pl-[22px] pb-[70px] pr-[25px] rounded-[20px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] font-primary">
+    <div className=" h-[300px] pt-[20px] pl-[22px] pb-[70px] pr-[25px] rounded-[20px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] font-primary">
       <div className="flex items-center justify-between mb-[34px]">
         <h1 className="font-poppins font-semibold text-black text-[20px]">
           Group List
@@ -83,7 +83,7 @@ const GroupList = () => {
 
       </div>
 
-      <div className=" overflow-y-auto h-[354px] pt-[10px]">
+      <div className=" overflow-y-auto h-[200px] pt-[10px]">
         {
           show ?
             <div>

@@ -74,7 +74,7 @@ const Friends = () => {
   };
 
   return (
-    <div className="w-[344px] h-[451px] pt-[20px] pl-[22px] pb-[70px] pr-[25px] rounded-[20px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] font-primary">
+    <div className=" h-[300px] pt-[20px] pl-[22px] pb-[70px] pr-[25px] rounded-[20px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] font-primary">
       <div className="flex items-center justify-between mb-[34px]">
         <h1 className="font-poppins font-semibold text-black text-[20px]">
           Friends
@@ -82,7 +82,7 @@ const Friends = () => {
         <BsThreeDotsVertical />
       </div>
 
-      <div className=" overflow-y-auto h-[354px] pt-[10px]">
+      <div className=" overflow-y-auto h-[250px] pt-[10px]">
 
         {
           friendList.map((item) => (
