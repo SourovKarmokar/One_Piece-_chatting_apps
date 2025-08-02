@@ -44,7 +44,7 @@ console.log(blocklist);
         <BsThreeDotsVertical />
       </div>
 
-      <div className=" overflow-y-auto h-[250px] pt-[10px]">
+      <div className=" overflow-y-auto h-[200px] pt-[10px]">
 
 
         {
