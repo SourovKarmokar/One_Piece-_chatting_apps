@@ -46,7 +46,7 @@ const Home = () => {
             {verify ? (
                 <div className='flex '>
                     <div className='w-[186px] h-full'>
-                        <Sidebar />
+                        <Sidebar active="home" />
                     </div>
                     <div className='flex   xl:w-[82%] pt-[30px] flex-col xl:flex-row px-3 xl:px-0 items-start   gap-y-8 xl:mr-[15px] w-[427px]'>
                         <div className=' flex flex-col gap-y-7 ml-13  w-[30%]'>

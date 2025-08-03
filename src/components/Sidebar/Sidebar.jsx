@@ -5,11 +5,12 @@ import { MdOutlineSettings } from "react-icons/md";
 import { LuMessageCircleMore } from "react-icons/lu";
 import { ImExit } from "react-icons/im";
 import { getAuth, signOut } from 'firebase/auth';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { userLogInfo } from '../../slice/userSlice';
+import Message from '../../pages/Message';
 
-const Sidebar = () => {
+const Sidebar = ({ active }) => {
   const data = useSelector(state => state.userLogInfo.value)
   console.log(data);
 
@@ -31,18 +32,39 @@ const Sidebar = () => {
   return (
     <div className='bg-primary min-h-screen  rounded-lg font-primary flex flex-col justify-between'>
       <div className='pt-[38px]'>
-        <img className='mx-auto' src={profile} alt="" />
+        <img className='mx-auto ' src={profile} alt="" />
         <p className='text-white text-center '>{data.user.displayName}</p>
-        <div className="
-                       relative mt-[78px] z-[1] py-[20px]
-                       after:content-[''] after:absolute after:top-0 after:left-[20px]  after:w-full after:h-full after:bg-white after:rounded-2xl after:z-[-1]
+        <div className={` relative mt-[78px] z-[1] py-[20px]
+                       after:content-[''] after:absolute after:top-0 after:left-[20px]  after:w-full after:h-full
+                       ${active == 'home' &&"after:bg-white  "
+                        
+                       } 
+                       after:rounded-2xl after:z-[-1]
                        before:content-[''] before:absolute before:top-0 before:right-0 before:w-[10px] before:h-full before:bg-primary before:rounded-l-2xl
-                       before:shadow-lg
-                      ">
-          <MdOutlineHome size={46} className='mx-auto' />
+                       before:shadow-lg `}>
+          <Link to="/">
+            <MdOutlineHome size={46} className={`mx-auto  ${active == "home" ? 
+              "text-primary"
+              :
+              "text-white"
+              } `} />
+          </Link>
         </div>
-        <div className="mt-[57px] ">
-          <LuMessageCircleMore size={46} className='mx-auto text-white' />
+        <div className={` mt-[57px] relative  z-[1] py-[20px]
+                       after:content-[''] after:absolute after:top-0 after:left-[20px]  after:w-full after:h-full
+                       ${active == 'message' &&"after:bg-white  "
+                        
+                       } 
+                       after:rounded-2xl after:z-[-1]
+                       before:content-[''] before:absolute before:top-0 before:right-0 before:w-[10px] before:h-full before:bg-primary before:rounded-l-2xl
+                       before:shadow-lg`}>
+          <Link to="/message">
+            <LuMessageCircleMore size={46} className={`mx-auto  ${active == "message" ? 
+              "text-primary"
+              :
+              "text-white"
+              } `}/>
+          </Link>
         </div>
         <div className="mt-[57px] ">
           <MdOutlineSettings size={46} className='mx-auto text-white' />
