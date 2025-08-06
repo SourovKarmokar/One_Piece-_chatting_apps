@@ -3,11 +3,12 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import { FaPlus } from 'react-icons/fa';
 import user from "../../assets/user.png"
 import { getDatabase, onValue, push, ref, remove, set } from 'firebase/database';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 const Friends = () => {
   const data = useSelector(state => state.userLogInfo.value.user);
+  
   const db = getDatabase();
 
   const [friendList, setFriendList] = useState([])

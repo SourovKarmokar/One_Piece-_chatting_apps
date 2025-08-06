@@ -186,7 +186,7 @@ const UserList = () => {
                         <div className="flex bg-black rounded-[5px] justify-center items-center">
 
                           <p
-                            
+                             onClick={() => handleRequest(item)}
                             className='text-white p-2 cursor-pointer'
                           >
                             +
@@ -258,7 +258,7 @@ const UserList = () => {
                         <div className="flex bg-black rounded-[5px] justify-center items-center">
 
                           <p
-                            
+                             onClick={() => handleRequest(item)}
                             className='text-white p-2 cursor-pointer'
                           >
                             +

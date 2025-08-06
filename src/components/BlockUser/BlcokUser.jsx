@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { FaPlus } from 'react-icons/fa';
-import user from "../../assets/user.png"
+import profile from "../../assets/profile.png"
 import { getDatabase, onValue, ref } from 'firebase/database';
 import { useSelector } from 'react-redux';
 
@@ -56,7 +56,7 @@ console.log(blocklist);
                 className="relative w-[52px] h-[52px] rounded-full bg-cover bg-center mr-[10px]"
 
               >
-                <img src={user} alt="" />
+                <img src={profile} alt="" />
               </div>
               <div className='ml-[10px]'>
                 <h2 className="font-primary font-semibold text-black text-[14px]">
