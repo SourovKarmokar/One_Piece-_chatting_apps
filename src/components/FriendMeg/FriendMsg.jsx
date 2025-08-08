@@ -30,7 +30,18 @@ const FriendMsg = () => {
 
   const handleMsg = (item) => {
     console.log("Message clicked for:", item);
-    dispatch(activeMsgInfo(item))
+    // dispatch(activeMsgInfo(item))
+    if(data.uid == item.senderid){
+      dispatch(activeMsgInfo({
+        id: item.receiverid ,
+        name: item.receivername,
+      }))
+    }else{
+      dispatch(activeMsgInfo({
+        id: item.senderid ,
+        name: item.sendername,
+      }))
+    }
   }
 
   return (
