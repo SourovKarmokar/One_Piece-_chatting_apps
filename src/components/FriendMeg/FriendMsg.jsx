@@ -31,16 +31,19 @@ const FriendMsg = () => {
   const handleMsg = (item) => {
     console.log("Message clicked for:", item);
     // dispatch(activeMsgInfo(item))
-    if(data.uid == item.senderid){
+    if (data.uid == item.senderid) {
+
       dispatch(activeMsgInfo({
-        id: item.receiverid ,
+        id: item.receiverid,
         name: item.receivername,
       }))
-    }else{
+      localStorage.setItem("activemsg", JSON.stringify({ id: item.receiverid, name: item.receivername }))
+    } else {
       dispatch(activeMsgInfo({
-        id: item.senderid ,
+        id: item.senderid,
         name: item.sendername,
       }))
+      localStorage.setItem("activemsg", JSON.stringify({ id: item.senderid, name: item.sendername }))
     }
   }
 

@@ -31,6 +31,10 @@ const router = createBrowserRouter([
     path: "/message" ,
     element : <Message />
   },
+  {
+    path: "/" ,
+    element : <Home />
+  },
 ])
 
 function App() {
