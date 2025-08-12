@@ -9,6 +9,7 @@ import {
   RouterProvider,
 } from "react-router";
 import Message from "./pages/Message";
+import Setting from "./pages/Setting";
 
 const router = createBrowserRouter([
   {
@@ -32,8 +33,8 @@ const router = createBrowserRouter([
     element : <Message />
   },
   {
-    path: "/" ,
-    element : <Home />
+    path: "/setting" ,
+    element : <Setting />
   },
 ])
 

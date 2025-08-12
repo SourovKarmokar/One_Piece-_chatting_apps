@@ -66,8 +66,21 @@ const Sidebar = ({ active }) => {
               } `}/>
           </Link>
         </div>
-        <div className="mt-[57px] ">
-          <MdOutlineSettings size={46} className='mx-auto text-white' />
+        <div className={` mt-[57px] relative  z-[1] py-[20px]
+                       after:content-[''] after:absolute after:top-0 after:left-[20px]  after:w-full after:h-full
+                       ${active == 'setting' &&"after:bg-white  "
+                        
+                       } 
+                       after:rounded-2xl after:z-[-1]
+                       before:content-[''] before:absolute before:top-0 before:right-0 before:w-[10px] before:h-full before:bg-primary before:rounded-l-2xl
+                       before:shadow-lg`}>
+          <Link to="/setting">
+            <MdOutlineSettings size={46} className={`mx-auto ${active == 'setting' ? 
+              "text-primary"
+              :
+              "text-white"
+              } `}/>
+          </Link>
         </div>
 
       </div>
