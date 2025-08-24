@@ -1,34 +1,52 @@
 import React, { useState } from 'react';
 import { FaPencilAlt, FaInfoCircle, FaCamera, FaQuestionCircle, FaKey, FaTrashAlt } from 'react-icons/fa';
 import profile from "../../assets/profile.png"
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { ref, update, getDatabase } from "firebase/database";
+import {updateDisplayName}  from "../../slice/userSlice"
 
 
 const Settings = () => {
+    const db = getDatabase();
     const auth = getAuth();
-    console.log(auth);
+    const dispatch = useDispatch();
 
     const data = useSelector(state => state.userLogInfo.value.user)
     console.log(data);
 
     const [showName, setShowName] = useState(false)
-    const [newName, setNewName] = useState(data.displayName || "")
-    const handleSubmit = () => {
+    const [newName, setNewName] = useState(data?.displayName || "")
+     const handleSubmit = () => {
         if (auth.currentUser) {
             updateProfile(auth.currentUser, {
                 displayName: newName
-                
-            }).then(() => {
-                // Profile updated!
-                // ...
-            }).catch((error) => {
-                // An error occurred
-                // ...
-            });
-        }
 
-    }
+            })
+            update(ref(db, "users/" + data.uid), {
+
+                username : newName,
+            })
+
+                 .then(() => {
+                    console.log("DISPATCHING updateDisplayName with:", newName);
+                    dispatch(updateDisplayName(newName));
+                    setShowName(false); // Close the edit form
+                    
+                    // Check state after dispatch
+                    setTimeout(() => {
+                        const updatedState = useSelector(state => state.userLogInfo);
+                        console.log("AFTER DISPATCH - State:", updatedState);
+                    }, 100);
+                })
+                .catch((error) => {
+                    console.error("Error updating profile:", error);
+                });
+        }
+     };
+
+    
     return (
         <div className="flex justify-between items-start gap-8 p-4 bg-gray-100 min-h-screen w-full ">
 
@@ -43,7 +61,7 @@ const Settings = () => {
                     <img src={profile} alt="Profile" className="w-16 h-16 rounded-full"
                     />
                     <div>
-                        <h3 className='font-poppins font-medium text-[25px]  leading-auto text-center flex items-center justify-center  text-primary rounded-none'>{data.displayName}</h3>
+                        <h3 className='font-poppins font-medium text-[25px]  leading-auto text-center flex items-center justify-center  text-primary rounded-none'>{data?.displayName}</h3>
                         <p className="w-[204px] h-[30px] font-poppins font-normal text-[15px] 
                         leading-normal tracking-[0px] text-black opacity-100">Stay home stay safe</p>
                     </div>

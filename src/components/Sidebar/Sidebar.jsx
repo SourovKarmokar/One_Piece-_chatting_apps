@@ -11,8 +11,8 @@ import { userLogInfo } from '../../slice/userSlice';
 import Message from '../../pages/Message';
 
 const Sidebar = ({ active }) => {
-  const data = useSelector(state => state.userLogInfo.value)
-  console.log(data);
+  const data = useSelector(state => state.userLogInfo.value);
+    console.log("Sidebar data:", data);
 
   const auth = getAuth();
   const navigate = useNavigate(null);
