@@ -40,39 +40,50 @@ const Friends = () => {
   // }
 
 
-  const blockHandler = (friend) => {
-    let blockerId = "";
-    let blockedId = "";
-    let blockerName = "";
-    let blockedName = "";
-    if (friend.senderid == data.uid) {
-      blockerId = friend.senderid;
-      blockerName = friend.sendername;
-      blockedId = friend.receiverid;
-      blockedName = friend.receivername;
-    } else {
-      blockerId = friend.receiverid;
-      blockerName = friend.receivername;
-      blockedId = friend.senderid;
-      blockedName = friend.sendername;
-    }
-    set(push(ref(db, "blocklist/")), {
-      blockerId: blockerId,
-      blockedId: blockedId,
-      blockerName: blockerName,
-      blockedName: blockedName,
-    });
-    set(push(ref(db, "notification/")), {
-      notifyReciver: blockedId,
-      type: "negative",
-      // time: time(),
-      content: `${blockerName} blocked you`,
-    });
-    toast.success("Blocked Successful");
-    remove(ref(db, "friend/" + friend.id));
-    console.log(friend);
+  // const blockHandler = (friend) => {
+  //   let blockerId = "";
+  //   let blockedId = "";
+  //   let blockerName = "";
+  //   let blockedName = "";
+  //   if (friend.senderid == data.uid) {
+  //     blockerId = friend.senderid;
+  //     blockerName = friend.sendername;
+  //     blockedId = friend.receiverid;
+  //     blockedName = friend.receivername;
+  //   } else {
+  //     blockerId = friend.receiverid;
+  //     blockerName = friend.receivername;
+  //     blockedId = friend.senderid;
+  //     blockedName = friend.sendername;
+  //   }
+  //   set(push(ref(db, "blocklist/")), {
+  //     blockerId: blockerId,
+  //     blockedId: blockedId,
+  //     blockerName: blockerName,
+  //     blockedName: blockedName,
+  //   });
+  //   set(push(ref(db, "notification/")), {
+  //     notifyReciver: blockedId,
+  //     type: "negative",
+  //     // time: time(),
+  //     content: `${blockerName} blocked you`,
+  //   });
+  //   toast.success("Blocked Successful");
+  //   remove(ref(db, "friend/" + friend.id));
+  //   console.log(friend);
     
-  };
+  // };
+
+
+  const blockHandler  = (user) => {
+    set(push(ref(db, 'blocklist/' )), {
+     blockerId: data.uid,
+     blockerName: data.displayName,
+     blockedId: data.uid === user.senderid ? user.receiverid : user.senderid ,
+     blockedName: data.displayName === user.sendername ? user.receivername : user.sendername,
+  });
+}
+
 
   return (
     <div className=" h-[300px] pt-[20px] pl-[22px] pb-[70px] pr-[25px] rounded-[20px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] font-primary">
